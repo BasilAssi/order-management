@@ -1,0 +1,95 @@
+/**
+ * Created By: Basil Assi
+ * ID Number: 1192308
+ * Date: 6/28/2023
+ * Time: 10:39 PM
+ * Project Name: WebServciesFinalProject
+ */
+
+package com.example.webservciesfinalproject.service.impl;
+
+
+import com.example.webservciesfinalproject.dto.ProductDTO;
+import com.example.webservciesfinalproject.entity.Product;
+import com.example.webservciesfinalproject.exception.ResourceNotFoundException;
+import com.example.webservciesfinalproject.repository.ProductRepository;
+import com.example.webservciesfinalproject.service.ProductService;
+
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class ProductServiceImpl implements ProductService {
+
+
+    private ProductRepository productRepository;
+
+
+
+    public ProductServiceImpl(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Override
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public ProductDTO getProductById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product" , "id" , id));
+        return convertToDTO(product);
+    }
+
+    @Override
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        Product product = convertToEntity(productDTO);
+        return convertToDTO(productRepository.save(product));
+    }
+
+    @Override
+    public ProductDTO updateProduct(Integer id, ProductDTO productDTO) {
+        productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product" , "id" , id));
+
+        Product product = convertToEntity(productDTO);
+        product.setId(id);
+        return convertToDTO(productRepository.save(product));
+    }
+
+    @Override
+    public void deleteProduct(Integer id) {
+        productRepository.deleteById(id);
+    }
+
+    //convert Product to ProductDTO
+    private ProductDTO convertToDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setSlug(product.getSlug());
+        productDTO.setName(product.getName());
+        productDTO.setReference(product.getReference());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setVat(product.getVat());
+        productDTO.setStockable(product.getStockable());
+        return productDTO;
+    }
+
+    // convert ProductDTO to Product
+    private Product convertToEntity(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setSlug(productDTO.getSlug());
+        product.setName(productDTO.getName());
+        product.setReference(productDTO.getReference());
+        product.setPrice(productDTO.getPrice());
+        product.setVat(productDTO.getVat());
+        product.setStockable(productDTO.getStockable());
+        return product;
+    }
+}
