@@ -31,12 +31,10 @@ public class ProductOrder {
 
     private Integer quantity;
 
-    @DecimalMin(value = "2.0", inclusive = true)
-    @DecimalMax(value = "10.0", inclusive = true)
+    @Column(precision = 10, scale = 2)
     private BigDecimal price;
 
-    @DecimalMin(value = "2.0", inclusive = true)
-    @DecimalMax(value = "10.0", inclusive = true)
+    @Column(precision = 10, scale = 2)
     private BigDecimal vat;
 
 

@@ -24,11 +24,15 @@ import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+// This class is annotated with @RestController, signifying that it is a controller that should handle HTTP requests in a RESTful web service.
+// The @RequestMapping annotation maps this controller to the "/api/v1/products" path.
+
 @Api(tags = "Products")
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
+    // This is a dependency on a service class that is used to process business-level operations.
     private final ProductService productService;
 
     @ApiOperation(value = "Get  All Products by Admin")
@@ -43,11 +47,12 @@ public class ProductController {
                     .withRel("Stocks ");
             product.add(stocksLink);
         }
+        // The products, along with their respective links, are returned.
         return ResponseEntity.ok(productDTOS);
         //return new ResponseEntity<>(productService.getAllProducts(), HttpStatus.OK);
     }
 
-
+    // This method fetches a specific product by its id.
     @ApiOperation(value = "Get  Product by Id ,  by Admin")
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Integer id) {
@@ -58,7 +63,7 @@ public class ProductController {
                     .withRel("Stocks ");
             productDTO.add(stockLink);
             return ResponseEntity.ok(productDTO);
-        } else {
+        } else { // If the product does not exist, a HTTP 404 status code is returned.
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

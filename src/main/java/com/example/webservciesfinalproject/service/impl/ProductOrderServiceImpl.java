@@ -15,6 +15,7 @@ import com.example.webservciesfinalproject.service.ProductOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -137,14 +138,17 @@ public class ProductOrderServiceImpl implements ProductOrderService {
         // Find product
         Product product = productRepository.findById(productOrderDTO.getProductId())
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productOrderDTO.getProductId()));
+        BigDecimal quantity = new BigDecimal(productOrderDTO.getQuantity());
+        BigDecimal price=product.getPrice().multiply(quantity);
+        BigDecimal vat=product.getVat().multiply(price);
 
         // Create new ProductOrder and set its properties
         ProductOrder productOrder = new ProductOrder();
         productOrder.setProduct(product);
         productOrder.setOrder(order);
         productOrder.setQuantity(productOrderDTO.getQuantity());
-        productOrder.setPrice(productOrderDTO.getPrice());
-        productOrder.setVat(productOrderDTO.getVat());
+        productOrder.setPrice(price.add(vat));
+        productOrder.setVat(vat);
 
         // Save ProductOrder in the repository
         ProductOrder savedProductOrder = productOrderRepository.save(productOrder);

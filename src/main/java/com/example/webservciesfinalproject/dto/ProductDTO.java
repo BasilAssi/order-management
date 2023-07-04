@@ -8,6 +8,7 @@
 
 package com.example.webservciesfinalproject.dto;
 
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
@@ -26,11 +27,9 @@ public class ProductDTO  extends RepresentationModel<ProductDTO> {
     private String slug;
     private String name;
     private String reference;
-    @DecimalMin(value = "2.0", inclusive = true)
-    @DecimalMax(value = "10.0", inclusive = true)
+    @Column(precision = 10, scale = 2)
     private BigDecimal price;
-    @DecimalMin(value = "2.0", inclusive = true)
-    @DecimalMax(value = "10.0", inclusive = true)
+    @Column(precision = 10, scale = 2)
     private BigDecimal vat;
     private Boolean stockable;
 }

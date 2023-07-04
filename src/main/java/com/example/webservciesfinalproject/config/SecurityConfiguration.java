@@ -40,25 +40,24 @@ public class SecurityConfiguration {
                       .requestMatchers("/api/v1/products").hasAnyAuthority(ADMIN.name())
 
                       .requestMatchers("/api/v1/customers").hasAnyAuthority(ADMIN.name())
-                      .requestMatchers("/api/v1/customers/{id}").hasAnyAuthority(ADMIN.name())
-                      .requestMatchers("/api/v1/customers/{id}").hasAnyAuthority(CUSTOMER.name())
+                      .requestMatchers("/api/v1/customers/{id}").hasAnyAuthority(ADMIN.name() ,CUSTOMER.name())
+
 
 
 
                       .requestMatchers("/api/v1/products/{productId}/stocks").hasAnyAuthority(ADMIN.name())
                       .requestMatchers("/api/v1/products/{productId}/stocks/{id}").hasAnyAuthority(ADMIN.name())
 
-                      .requestMatchers("/api/v1/customers/{customerId}/orders").hasAnyAuthority(ADMIN.name())
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{id}").hasAnyAuthority(ADMIN.name())
-                      .requestMatchers("/api/v1/customers/{customerId}/orders").hasAnyAuthority(CUSTOMER.name())
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{id}").hasAnyAuthority(CUSTOMER.name())
 
 
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products").hasAnyAuthority(ADMIN.name())
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products/{productId}").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders").hasAnyAuthority(CUSTOMER.name() ,ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{id}").hasAnyAuthority(CUSTOMER.name() ,ADMIN.name())
 
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products").hasAnyAuthority(CUSTOMER.name())
-                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products/{productId}").hasAnyAuthority(CUSTOMER.name())
+
+
+
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products").hasAnyAuthority(CUSTOMER.name(),ADMIN.name() )
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products/{productId}").hasAnyAuthority(CUSTOMER.name() , ADMIN.name())
 
                      // .requestMatchers("/api/v1/customers").hasAuthority(ADMIN.name())
                       .anyRequest().authenticated())

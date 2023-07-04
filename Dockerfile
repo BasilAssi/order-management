@@ -1,9 +1,4 @@
-FROM maven AS Build
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the packaged Spring Boot application (JAR file) to the docker image
-COPY build/libs/demo-0.0.1-SNAPSHOT.jar app.jar
-
-# Set the entry point for the container, specifies that the default command to run when the container starts
-ENTRYPOINT ["java","-jar","/app.jar"]
+From openjdk:19
+EXPOSE 8080
+ADD target/WebServciesFinalProject-0.0.1-SNAPSHOT.jar order-management.jar
+ENTRYPOINT ["java","-jar","order-management.jar"]
