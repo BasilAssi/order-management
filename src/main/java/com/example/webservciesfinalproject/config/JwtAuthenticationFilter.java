@@ -1,7 +1,7 @@
 package com.example.webservciesfinalproject.config;
 
 
-import com.example.webservciesfinalproject.token.TokenRepository;
+import com.example.webservciesfinalproject.repository.TokenRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,6 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
    // System.out.println("after if auth");
     final String authHeader = request.getHeader("Authorization");
+    System.out.println(authHeader);
    // System.out.println(authHeader);
     final String jwt;
     final String userEmail;
@@ -53,6 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       return;
     }
     jwt = authHeader.substring(7);
+    System.out.println(jwt);
 
     System.out.println(jwt);
     userEmail = jwtService.extractUsername(jwt);
@@ -61,6 +63,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+      System.out.println("authorities:");
+      System.out.println(userDetails.getAuthorities());
       var isTokenValid = tokenRepository.findByToken(jwt)
           .map(t -> !t.isExpired() && !t.isRevoked())
           .orElse(false);

@@ -3,10 +3,9 @@ package com.example.webservciesfinalproject.auth;
 
 import com.example.webservciesfinalproject.config.JwtService;
 import com.example.webservciesfinalproject.dto.CustomerDTO;
-import com.example.webservciesfinalproject.entity.Customer;
 import com.example.webservciesfinalproject.service.CustomerService;
-import com.example.webservciesfinalproject.token.Token;
-import com.example.webservciesfinalproject.token.TokenRepository;
+import com.example.webservciesfinalproject.entity.Token;
+import com.example.webservciesfinalproject.repository.TokenRepository;
 import com.example.webservciesfinalproject.token.TokenType;
 import com.example.webservciesfinalproject.user.Role;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,8 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.webservciesfinalproject.user.User;
-import com.example.webservciesfinalproject.user.UserRepository;
+import com.example.webservciesfinalproject.entity.User;
+import com.example.webservciesfinalproject.repository.UserRepository;
 
 
 

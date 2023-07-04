@@ -1,49 +1,67 @@
-//package com.example.webservciesfinalproject.config;
-//
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import springfox.documentation.builders.PathSelectors;
-//import springfox.documentation.builders.RequestHandlerSelectors;
-//import springfox.documentation.service.*;
-//import springfox.documentation.spi.DocumentationType;
-//import springfox.documentation.spi.service.contexts.SecurityContext;
-//import springfox.documentation.spring.web.plugins.Docket;
-//import springfox.documentation.swagger2.annotations.EnableSwagger2;
-//
-//import java.util.Arrays;
-//import java.util.Collections;
-//import java.util.List;
-//
-//@Configuration
-//@EnableSwagger2
-//public class SwaggerConfig {
-//
-//    public static final String AUTHORIZATION_HEADER = "Authorization";
-//
+package com.example.webservciesfinalproject.config;
+
+import io.swagger.annotations.AuthorizationScope;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.security.core.context.SecurityContext;
+import springfox.documentation.service.SecurityReference;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+@Configuration
+public class SwaggerConfig {
+
+    public static final String AUTHORIZATION_HEADER = "Authorization";
+
 //    private ApiKey apiKey(){
 //        return new ApiKey("Authorization", AUTHORIZATION_HEADER, "header");
 //    }
-//
-//    private ApiInfo apiInfo(){
-//        return new ApiInfo(
+
+    private Info apiInfo(){
+        return new Info().title("title").description("description").version("1")
+                .contact(new Contact().name("Basil Assi")
+                        .url( "www.tarifi.info")
+                        .email( "tarifibasel0@gmail.com"));
 //                "Spring Boot Blog REST APIs",
 //                "Spring Boot Blog REST API Documentation",
 //                "1",
 //                "Terms of service",
-//                new Contact("Your name", "www.profile.info", "name@gmail.com"),
+//                new Contact("Basil Assi", "www.tarifi.info", "tarifibasel0@gmail.com"),
 //                "License of API",
 //                "API license URL",
 //                Collections.emptyList()
-//        );
-//    }
-//
-//    /**
-//     * In order to create Swagger docket
-//     * @return
-//     */
-//    @Bean
-//    public Docket api(){
-//        return new Docket(DocumentationType.OAS_30)
+
+    }
+
+    /**
+     * In order to create Swagger docket
+     * @return
+     */
+    @Bean
+    public OpenAPI api(){
+        return new OpenAPI()
+                .components(
+                        new Components().addSecuritySchemes(AUTHORIZATION_HEADER,
+                                new SecurityScheme().type(SecurityScheme.Type.APIKEY)
+                                        .in(SecurityScheme.In.HEADER)
+                                        .name(AUTHORIZATION_HEADER)
+                                        .bearerFormat("JWT")))
+//                                new SecurityScheme().type(SecurityScheme.Type.APIKEY)
+//                                        .in(SecurityScheme.In.HEADER)
+//                                        .name(AUTHORIZATION_HEADER)))
+                .info(apiInfo())
+                .addSecurityItem(
+                        new SecurityRequirement().addList(AUTHORIZATION_HEADER, Collections.singletonList("global")));
+//        return new OpenAPI(DocumentationType.OAS_30)
 //                .apiInfo(apiInfo())
 //                .securityContexts(Arrays.asList(securityContext()))
 //                .securitySchemes(Arrays.asList(apiKey())) /*Enable authorization for APIs in Swagger UI*/
@@ -51,8 +69,8 @@
 //                .apis(RequestHandlerSelectors.any())/*get all APIs in the project, you can use .basePackage to scan only APIs in specific package like (RequestHandlerSelectors.basePackage("com.edu.controller.customer"))*/
 //                .paths(PathSelectors.any())  // Expose all APIs, you can restrict like expose only  .paths(PathSelectors.ant("/posts/*"))
 //                .build();
-//    }
-//
+    }
+
 //    private SecurityContext securityContext(){
 //        return SecurityContext.builder().securityReferences(defaultAuth()).build();
 //    }
@@ -67,4 +85,4 @@
 //        authorizationScopes[0] = authorizationScope;
 //        return Arrays.asList(new SecurityReference("JWT", authorizationScopes));
 //    }
-//}
+}

@@ -1,6 +1,7 @@
-package com.example.webservciesfinalproject.token;
+package com.example.webservciesfinalproject.entity;
 
-import com.example.webservciesfinalproject.user.User;
+import com.example.webservciesfinalproject.entity.User;
+import com.example.webservciesfinalproject.token.TokenType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

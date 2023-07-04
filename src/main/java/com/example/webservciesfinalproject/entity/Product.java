@@ -9,6 +9,8 @@
 package com.example.webservciesfinalproject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,7 +32,11 @@ public class Product {
     private String slug;
     private String name;
     private String reference;
+    @DecimalMin(value = "2.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal price;
+    @DecimalMin(value = "2.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal vat;
     private Boolean stockable;
 

@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "CustomerId" , customerId));
 
-        Order order = orderRepository.findByIdAndCustomer(id, customer)
+        Order order = orderRepository.findByCustomerAndOrderId(customer,id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order" ,"id" , id));
         return convertToDTO(order);
     }
@@ -63,10 +63,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO updateOrderOfCustomer(Integer id, Integer customerId, OrderDTO orderDTO) {
+
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer " ,"customerId",customerId));
 
-        Order order = orderRepository.findByIdAndCustomer(id, customer)
+        Order order = orderRepository.findByCustomerAndOrderId(customer,id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order" ,"id" ,id));
 
         order = convertToEntity(orderDTO);
@@ -79,10 +80,13 @@ public class OrderServiceImpl implements OrderService {
         Customer customer = customerRepository.findById(customerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer " ,"customerId",customerId));
 
-        Order order = orderRepository.findByIdAndCustomer(id, customer)
+        Order order = orderRepository.findByCustomerAndOrderId(customer,id)
                 .orElseThrow(() -> new ResourceNotFoundException("Order" ,"id" ,id));
         orderRepository.delete(order);
     }
+
+
+
 
     // Method to convert Order to OrderDTO
     private OrderDTO convertToDTO(Order order) {

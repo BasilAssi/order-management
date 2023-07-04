@@ -54,12 +54,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO updateProduct(Integer id, ProductDTO productDTO) {
-        productRepository.findById(id)
+
+        // Fetch the product by id
+        Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product" , "id" , id));
 
-        Product product = convertToEntity(productDTO);
-        product.setId(id);
-        return convertToDTO(productRepository.save(product));
+        // Set the new values
+        product.setSlug(productDTO.getSlug());
+        product.setName(productDTO.getName());
+        product.setReference(productDTO.getReference());
+        product.setPrice(productDTO.getPrice());
+        product.setVat(productDTO.getVat());
+        product.setStockable(productDTO.getStockable());
+        // Save the updated product and convert it to ProductDTO
+        ProductDTO updatedProductDTO = convertToDTO(productRepository.save(product));
+
+        return updatedProductDTO;
     }
 
     @Override

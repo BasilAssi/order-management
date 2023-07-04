@@ -6,23 +6,21 @@ import java.util.List;
 
 public interface ProductOrderService {
 
-    List<ProductOrderDTO> getProductsOfOrder(Integer orderId);
+//    void deleteOrderOfProduct(Integer customerId, Integer productId, Integer orderId);
 
-    ProductOrderDTO getProductOfOrder(Integer orderId, Integer productId);
+    List<ProductOrderDTO> getProductsOfOrder(Integer customerId, Integer orderId);
+    ProductOrderDTO getProductOfOrder(Integer customerId, Integer orderId, Integer productId);
+    ProductOrderDTO addProductToOrder(Integer customerId, Integer orderId, ProductOrderDTO productOrderDTO);
+    ProductOrderDTO updateProductOfOrder(Integer customerId, Integer orderId, Integer productId, ProductOrderDTO productOrderDTO);
+    void deleteProductOfOrder(Integer customerId, Integer orderId, Integer productId);
+//    List<ProductOrderDTO> getOrdersOfProduct(Integer customerId, Integer productId);
+//    ProductOrderDTO getOrderOfProduct(Integer customerId, Integer productId, Integer orderId);
+//    ProductOrderDTO addOrderToProduct(Integer customerId, Integer productId, ProductOrderDTO productOrderDTO);
+//    ProductOrderDTO updateOrderOfProduct(Integer customerId, Integer productId, Integer orderId, ProductOrderDTO productOrderDTO);
 
-    ProductOrderDTO addProductToOrder(Integer orderId, ProductOrderDTO productOrderDTO);
 
-    ProductOrderDTO updateProductOfOrder(Integer orderId, Integer productId, ProductOrderDTO productOrderDTO);
 
-    void deleteProductOfOrder(Integer orderId, Integer productId);
 
-    List<ProductOrderDTO> getOrdersOfProduct(Integer productId);
 
-    ProductOrderDTO getOrderOfProduct(Integer productId, Integer orderId);
-
-    ProductOrderDTO addOrderToProduct(Integer productId, ProductOrderDTO productOrderDTO);
-
-    ProductOrderDTO updateOrderOfProduct(Integer productId, Integer orderId, ProductOrderDTO productOrderDTO);
-
-    void deleteOrderOfProduct(Integer productId, Integer orderId);
 }
+

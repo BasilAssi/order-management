@@ -3,6 +3,7 @@ package com.example.webservciesfinalproject.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +13,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.webservciesfinalproject.user.Permission.ADMIN_READ;
+import static com.example.webservciesfinalproject.user.Permission.CUSTOMER_READ;
+import static com.example.webservciesfinalproject.user.Role.ADMIN;
+import static com.example.webservciesfinalproject.user.Role.CUSTOMER;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
@@ -27,7 +33,38 @@ public class SecurityConfiguration {
       return http
               .csrf(AbstractHttpConfigurer::disable)
               .cors(AbstractHttpConfigurer::disable)
-              .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll().anyRequest().authenticated())
+              .authorizeHttpRequests(auth -> auth
+                      .requestMatchers("/api/v1/auth/**","/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                      .requestMatchers(HttpMethod.GET,"/api/v1/products").permitAll()
+                      .requestMatchers(HttpMethod.GET,"/api/v1/products/{id}").permitAll()
+                      .requestMatchers("/api/v1/products").hasAnyAuthority(ADMIN.name())
+
+                      .requestMatchers("/api/v1/customers").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{id}").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{id}").hasAnyAuthority(CUSTOMER.name())
+
+
+
+                      .requestMatchers("/api/v1/products/{productId}/stocks").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/products/{productId}/stocks/{id}").hasAnyAuthority(ADMIN.name())
+
+                      .requestMatchers("/api/v1/customers/{customerId}/orders").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{id}").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders").hasAnyAuthority(CUSTOMER.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{id}").hasAnyAuthority(CUSTOMER.name())
+
+
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products").hasAnyAuthority(ADMIN.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products/{productId}").hasAnyAuthority(ADMIN.name())
+
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products").hasAnyAuthority(CUSTOMER.name())
+                      .requestMatchers("/api/v1/customers/{customerId}/orders/{orderId}/products/{productId}").hasAnyAuthority(CUSTOMER.name())
+
+                     // .requestMatchers("/api/v1/customers").hasAuthority(ADMIN.name())
+                      .anyRequest().authenticated())
+//              .authorizeHttpRequests(auth ->
+//                              auth.requestMatchers("/api/v1/customers/**").hasRole(CUSTOMER.name())
+//                                      ,auth.requestMatchers("/api/v1/auth/**").permitAll().anyRequest().authenticated())
               .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .authenticationProvider(authenticationProvider)
               .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)

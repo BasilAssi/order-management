@@ -9,6 +9,8 @@
 package com.example.webservciesfinalproject.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,6 @@ import lombok.Setter;
 import java.math.BigDecimal;
 
 @Entity
-//@IdClass(ProductOrderKey.class)
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,22 +28,17 @@ public class ProductOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-//    @EmbeddedId
-//    private ProductOrderKey id;
 
     private Integer quantity;
+
+    @DecimalMin(value = "2.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal price;
+
+    @DecimalMin(value = "2.0", inclusive = true)
+    @DecimalMax(value = "10.0", inclusive = true)
     private BigDecimal vat;
 
-//    @ManyToOne
-//   // @MapsId("productId")
-//    @JoinColumn(name = "productId")
-//    Product product;
-//
-//    @ManyToOne
-//  // @MapsId("orderId")
-//    @JoinColumn(name = "orderId")
-//    Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id" , referencedColumnName = "id" , nullable = false)
@@ -54,3 +50,14 @@ public class ProductOrder {
     private  Order order;
 
 }
+//    @EmbeddedId
+//    private ProductOrderKey id;
+//    @ManyToOne
+//   // @MapsId("productId")
+//    @JoinColumn(name = "productId")
+//    Product product;
+//
+//    @ManyToOne
+//  // @MapsId("orderId")
+//    @JoinColumn(name = "orderId")
+//    Order order;

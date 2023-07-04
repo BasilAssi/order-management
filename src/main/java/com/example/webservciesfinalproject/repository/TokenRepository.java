@@ -1,5 +1,6 @@
-package com.example.webservciesfinalproject.token;
+package com.example.webservciesfinalproject.repository;
 
+import com.example.webservciesfinalproject.entity.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

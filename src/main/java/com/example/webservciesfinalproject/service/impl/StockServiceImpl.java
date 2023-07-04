@@ -16,6 +16,7 @@ import com.example.webservciesfinalproject.exception.ResourceNotFoundException;
 import com.example.webservciesfinalproject.repository.ProductRepository;
 import com.example.webservciesfinalproject.repository.StockRepository;
 import com.example.webservciesfinalproject.service.StockService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -89,6 +90,7 @@ public class StockServiceImpl implements StockService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found","productId"  , productId ));
         stockRepository.findByIdAndProduct_Id(stockId, productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Stock not found for the given product and stock ID"  , "productId: "+productId  + " stockId:" +stockId , stockId));
+
         Stock stock = convertToEntity(stockDTO);
         stock.setId(stockId);
         stock.setProduct(product);
@@ -99,7 +101,7 @@ public class StockServiceImpl implements StockService {
     public void deleteStock(Integer id) {
         stockRepository.deleteById(id);
     }
-
+    @Transactional
     @Override
     public void deleteStockByProductIdAndStockId(Integer productId, Integer stockId) {
         stockRepository.deleteByIdAndProduct_Id(stockId, productId);
@@ -109,6 +111,7 @@ public class StockServiceImpl implements StockService {
         StockDTO stockDTO = new StockDTO();
         stockDTO.setId(stock.getId());
         stockDTO.setQuantity(stock.getQuantity());
+        stockDTO.setUpdateAt(stock.getUpdateAt());
         if (stock.getProduct() != null) {
             stockDTO.setProductId(stock.getProduct().getId());
         }
@@ -119,6 +122,7 @@ public class StockServiceImpl implements StockService {
         Stock stock = new Stock();
         stock.setId(stockDTO.getId());
         stock.setQuantity(stockDTO.getQuantity());
+        stock.setUpdateAt(stockDTO.getUpdateAt());
         if (stockDTO.getProductId() != null) {
             Product product = productRepository.findById(stockDTO.getProductId())
                     .orElseThrow(() -> new ResourceNotFoundException("Product not found","productId"  , stockDTO.getProductId() ));

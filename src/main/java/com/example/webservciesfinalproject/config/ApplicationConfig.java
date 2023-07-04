@@ -1,7 +1,7 @@
 package com.example.webservciesfinalproject.config;
 
 
-import com.example.webservciesfinalproject.user.UserRepository;
+import com.example.webservciesfinalproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

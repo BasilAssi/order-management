@@ -9,6 +9,7 @@
 package com.example.webservciesfinalproject.dto;
 
 import lombok.*;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
 
@@ -17,7 +18,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CustomerDTO {
+public class CustomerDTO extends RepresentationModel<CustomerDTO> {
 
     private Integer id;
     private String firstName;

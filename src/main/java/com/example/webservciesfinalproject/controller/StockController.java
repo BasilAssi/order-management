@@ -21,43 +21,38 @@ import java.util.List;
 
 @Api(tags = "Stock")
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping("/api/v1/products/{productId}/stocks")
 public class StockController {
 
     @Autowired
     private StockService stockService;
 
     @ApiOperation(value = "Get all stocks of a specific product")
-    @GetMapping("/{productId}/stocks")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @GetMapping
     public ResponseEntity<List<StockDTO>> getAllStocksByProductId(@PathVariable Integer productId) {
         return ResponseEntity.ok(stockService.getAllStocksByProductId(productId));
     }
 
     @ApiOperation(value = "Get specific stock by stock ID of a specific product")
-    @GetMapping("/{productId}/stocks/{id}")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+    @GetMapping("/{id}")
     public ResponseEntity<StockDTO> getStockByProductIdAndStockId(@PathVariable Integer productId, @PathVariable Integer id) {
         return ResponseEntity.ok(stockService.getStockByProductIdAndStockId(productId, id));
     }
 
     @ApiOperation(value = "Create a new stock entry for a specific product")
-    @PostMapping("/{productId}/stocks")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping
     public ResponseEntity<StockDTO> createStockByProductId(@PathVariable Integer productId, @RequestBody StockDTO stockDTO) {
         return ResponseEntity.ok(stockService.createStockByProductId(productId, stockDTO));
     }
 
     @ApiOperation(value = "Update stock for a specific product")
-    @PutMapping("/{productId}/stocks/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{id}")
     public ResponseEntity<StockDTO> updateStockByProductIdAndStockId(@PathVariable Integer productId, @PathVariable Integer id, @RequestBody StockDTO stockDTO) {
         return ResponseEntity.ok(stockService.updateStockByProductIdAndStockId(productId, id, stockDTO));
     }
 
     @ApiOperation(value = "Delete stock by stock ID of a specific product")
-    @DeleteMapping("/{productId}/stocks/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteStockByProductIdAndStockId(@PathVariable Integer productId, @PathVariable Integer id) {
         stockService.deleteStockByProductIdAndStockId(productId, id);
         return ResponseEntity.ok().build();
