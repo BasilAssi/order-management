@@ -1,5 +1,5 @@
 # order-management
-![image](https://github.com/BasilAssi/order-management/assets/104434508/085775b5-e0d9-4478-9ae4-4ec09bfe6858)
+![Screenshot 2023-07-05 231437](https://github.com/BasilAssi/order-management/assets/104434508/980a6c2d-3263-4b49-bbe5-9f1e4696cd1b)
 
 Order Management
 This repository contains a Spring Boot application that manages orders based on the provided database schema. 
