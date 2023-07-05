@@ -25,7 +25,25 @@ To clone the repository and navigate into the directory, run the following comma
 git clone https://github.com/BasilAssi/order-management.git
 cd order-management
 
+Building the Application
 
+To compile the source code, package the compiled code into a JAR file, and install the packaged code in your local repository:
+
+mvn clean install
+
+Creating and Running the Docker Image
+
+To create a Docker image for the application, ensure Docker is running and execute:
+
+docker build -t order-management-app .
+
+This will build a Docker image named order-management-app.
+
+To run the application in a Docker container:
+
+docker run -p 8080:8080 order-management-app
+
+The application will be accessible at http://localhost:8080.
 
 Postman Collection
 
