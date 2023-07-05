@@ -44,5 +44,5 @@ Code Documentation
 
 The source code is documented following Java best practices, which means each method, class, and module includes comments and descriptions of their functionality.
 
-Contributing
+
 
