@@ -62,5 +62,14 @@ Code Documentation
 
 The source code is documented following Java best practices, which means each method, class, and module includes comments and descriptions of their functionality.
 
+Setup the Application
+-create a database named "order-management".
+-deploy the application
+-mvn clean
+-mvn install -DskipTests
+-Build the docker image
+-docker build -t order_management .
+-run the docker image:
+-docker run -p 8080:8080 -e SPRING_DATASOURCE_URL="jdbc:mysql://host.docker.internal:3306/order-management?useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&zeroDateTimeBehavior=convertToNull" -e SPRING_DATASOURCE_USERNAME=<your_username> -e SPRING_DATASOURCE_PASSWORD=<your_password> my-spring-app
 
 
